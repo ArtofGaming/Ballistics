@@ -10,6 +10,7 @@ public class Throw : MonoBehaviour
     public Transform target;
     float launchForce = 10f;
     public GameObject throwable;
+    public bool hasBall = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,16 +23,23 @@ public class Throw : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space)) 
         {
-            GameObject throwMe = GameObject.Instantiate(throwable);
-            Ballistics ball = new Ballistics();
-            rb = throwMe.GetComponent<Rigidbody>();
-            Nullable<Vector3> aimVector = ball.CalculateFiringSolution(throwMe.transform.position, target.transform.position, launchForce, Physics.gravity);
-            if (aimVector.HasValue)
+            if (hasBall)
             {
-                Debug.Log("Has Value");
-                rb.AddForce(aimVector.Value.normalized * launchForce, ForceMode.VelocityChange);
-                rb.useGravity = true;
+                Ballistics ball = new Ballistics();
+                rb = throwable.GetComponent<Rigidbody>();
+                Nullable<Vector3> aimVector = ball.CalculateFiringSolution(throwable.transform.position, target.transform.position, launchForce, Physics.gravity);
+                if (aimVector.HasValue)
+                {
+                    Debug.Log("Has Value");
+                    rb.AddForce(aimVector.Value.normalized * launchForce, ForceMode.VelocityChange);
+                    rb.useGravity = true;
+                }
             }
+            else
+            {
+                Debug.Log("No ball");
+            }
+            
         }
     }
 
