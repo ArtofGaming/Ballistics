@@ -13,6 +13,7 @@ public class AIThrow : MonoBehaviour
     public GameObject throwable;
     public bool hasBall = false;
     float timer = 10f;
+    public AIMovement movement;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,7 @@ public class AIThrow : MonoBehaviour
             rb.AddForce(aimVector.Value.normalized * launchForce, ForceMode.VelocityChange);
             rb.useGravity = true;
             hasBall = false;
+            movement.takingAction = false;
         }
     }
 
